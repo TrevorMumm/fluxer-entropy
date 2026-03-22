@@ -37,6 +37,7 @@ import {
 	createVoiceParticipantSortSnapshot,
 	sortVoiceParticipantItemsWithSnapshot,
 } from '@app/components/voice/VoiceParticipantSortUtils';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
 import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
 import {useHover} from '@app/hooks/useHover';
 import {useMergeRefs} from '@app/hooks/useMergeRefs';
@@ -151,6 +152,7 @@ export const GuildListItem = observer(
 			return guild.name;
 		}, [guild.name, isSelected, t]);
 		const [hoverRef, isHovering] = useHover();
+		const shouldAutoplay = useAutoplayExpandedProfileAnimations();
 		const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
 		const isMobileExperience = isMobileExperienceEnabled();
 		const mobileLayout = MobileLayoutStore;
@@ -364,14 +366,14 @@ export const GuildListItem = observer(
 
 		useEffect(() => {
 			ImageCacheUtils.loadImage(iconUrl, () => setIsStaticLoaded(true));
-			if (isHovering || contextMenuOpen) {
+			if (shouldAutoplay || contextMenuOpen) {
 				ImageCacheUtils.loadImage(hoverIconUrl, () => setIsAnimatedLoaded(true));
 			}
-		}, [iconUrl, hoverIconUrl, isHovering, contextMenuOpen]);
+		}, [iconUrl, hoverIconUrl, shouldAutoplay, contextMenuOpen]);
 
 		useEffect(() => {
-			setShouldPlayAnimated((isHovering || contextMenuOpen) && isAnimatedLoaded);
-		}, [isHovering, isAnimatedLoaded, contextMenuOpen]);
+			setShouldPlayAnimated((shouldAutoplay || contextMenuOpen) && isAnimatedLoaded);
+		}, [shouldAutoplay, isAnimatedLoaded, contextMenuOpen]);
 
 		const handleSelect = () => {
 			NavigationActionCreators.selectGuild(guild.id, isMobileExperience ? undefined : selectedChannel);

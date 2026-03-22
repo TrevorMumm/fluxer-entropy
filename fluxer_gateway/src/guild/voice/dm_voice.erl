@@ -532,12 +532,17 @@ handle_dm_token_success(
     NewState = maps:put(dm_voice_states, NewVoiceStates, State),
     broadcast_voice_state_update(ChannelId, VoiceState, NewState),
     SessionPid = maps:get(session_pid, State),
-    VoiceServerUpdate = #{
+    IceServers = maps:get(<<"iceServers">>, Data, null),
+    VoiceServerUpdate0 = #{
         <<"token">> => Token,
         <<"endpoint">> => Endpoint,
         <<"channel_id">> => integer_to_binary(ChannelId),
         <<"connection_id">> => ConnectionId
     },
+    VoiceServerUpdate = case IceServers of
+        null -> VoiceServerUpdate0;
+        _ -> maps:put(<<"ice_servers">>, IceServers, VoiceServerUpdate0)
+    end,
     gen_server:cast(SessionPid, {dispatch, voice_server_update, VoiceServerUpdate}),
     GatewaySessionId = maps:get(id, State),
     spawn(fun() ->

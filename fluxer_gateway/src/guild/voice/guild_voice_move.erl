@@ -317,6 +317,7 @@ send_voice_server_update_for_move(GuildId, ChannelId, UserId, SessionId, OldConn
                                 Token = maps:get(token, TokenData),
                                 Endpoint = maps:get(endpoint, TokenData),
                                 ConnectionId = maps:get(connection_id, TokenData),
+                                IceServers = maps:get(ice_servers, TokenData, null),
                                 guild_voice_broadcast:broadcast_voice_server_update_to_session(
                                     GuildId,
                                     ChannelId,
@@ -324,6 +325,7 @@ send_voice_server_update_for_move(GuildId, ChannelId, UserId, SessionId, OldConn
                                     Token,
                                     Endpoint,
                                     ConnectionId,
+                                    IceServers,
                                     State
                                 );
                             {error, _Reason} ->
@@ -404,6 +406,7 @@ send_single_voice_server_update(GuildId, ChannelId, SessionInfo, GuildPid) ->
                             Token = maps:get(token, TokenData),
                             Endpoint = maps:get(endpoint, TokenData),
                             NewConnectionId = maps:get(connection_id, TokenData),
+                            IceServers2 = maps:get(ice_servers, TokenData, null),
                             PendingMetadata = #{
                                 <<"user_id">> => UserId,
                                 <<"guild_id">> => GuildId,
@@ -430,6 +433,7 @@ send_single_voice_server_update(GuildId, ChannelId, SessionInfo, GuildPid) ->
                                 Token,
                                 Endpoint,
                                 NewConnectionId,
+                                IceServers2,
                                 StateData
                             );
                         {error, _Reason} ->

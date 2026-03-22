@@ -20,6 +20,7 @@
 import type {ChannelID, GuildID, UserID} from '@fluxer/api/src/BrandedTypes';
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
+import type {CloudflareTurnService, IceServer} from '@fluxer/api/src/infrastructure/CloudflareTurnService';
 import type {LiveKitService} from '@fluxer/api/src/infrastructure/LiveKitService';
 import type {PinnedRoomServer, VoiceRoomStore} from '@fluxer/api/src/infrastructure/VoiceRoomStore';
 import {Logger} from '@fluxer/api/src/Logger';
@@ -73,6 +74,7 @@ export class VoiceService {
 		private channelRepository: IChannelRepository,
 		private voiceRoomStore: VoiceRoomStore,
 		private voiceAvailabilityService: VoiceAvailabilityService,
+		private cloudflareTurnService?: CloudflareTurnService,
 	) {}
 
 	async getVoiceToken(params: GetVoiceTokenParams): Promise<{
@@ -80,6 +82,7 @@ export class VoiceService {
 		endpoint: string;
 		connectionId: string;
 		tokenNonce: string;
+		iceServers?: Array<IceServer>;
 	}> {
 		const {guildId, channelId, userId, connectionId: providedConnectionId} = params;
 
@@ -271,7 +274,16 @@ export class VoiceService {
 				});
 		}
 
-		return {token, endpoint, connectionId, tokenNonce};
+		let iceServers: Array<IceServer> | undefined;
+		if (this.cloudflareTurnService) {
+			try {
+				iceServers = await this.cloudflareTurnService.generateIceServers();
+			} catch (error) {
+				Logger.error({error}, 'Failed to generate Cloudflare TURN credentials, proceeding without external TURN');
+			}
+		}
+
+		return {token, endpoint, connectionId, tokenNonce, iceServers};
 	}
 
 	private async resolvePinnedServer({

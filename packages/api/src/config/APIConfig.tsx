@@ -149,6 +149,16 @@ export interface APIConfig {
 			latitude: number;
 			longitude: number;
 		};
+		turn?: {
+			provider: string;
+			keyId: string;
+			apiToken: string;
+			ttl: number;
+		};
+		turnPortRewrite?: {
+			internalPort: number;
+			externalPort: number;
+		};
 	};
 
 	search: {

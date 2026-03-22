@@ -83,7 +83,7 @@ async function buildMain() {
 			'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
 		},
 		banner: {
-			js: `import { createRequire } from 'module'; const require = createRequire(import.meta.url);`,
+			js: `import { createRequire as _createRequire } from 'module'; const require = _createRequire(import.meta.url);`,
 		},
 	});
 
@@ -99,7 +99,7 @@ async function buildPreload() {
 		platform: 'node',
 		target: 'node20',
 		format: 'cjs',
-		outfile: path.join(DIST_DIR, 'preload', 'index.js'),
+		outfile: path.join(DIST_DIR, 'preload', 'index.cjs'),
 		minify: isProduction,
 		sourcemap: true,
 		external: electronExternals,

@@ -54,6 +54,49 @@
 					}
 				},
 				"required": ["id", "name", "emoji", "latitude", "longitude"]
+			},
+			"turn": {
+				"type": "object",
+				"description": "External TURN server configuration for NAT traversal.",
+				"additionalProperties": false,
+				"properties": {
+					"provider": {
+						"type": "string",
+						"description": "TURN provider.",
+						"enum": ["cloudflare"],
+						"default": "cloudflare"
+					},
+					"key_id": {
+						"type": "string",
+						"description": "Provider key ID."
+					},
+					"api_token": {
+						"type": "string",
+						"description": "Provider API token."
+					},
+					"ttl": {
+						"type": "number",
+						"description": "Credential TTL in seconds.",
+						"default": 86400
+					}
+				},
+				"required": ["key_id", "api_token"]
+			},
+			"turn_port_rewrite": {
+				"type": "object",
+				"description": "Rewrites LiveKit built-in TURN server ports for clients when behind a TLS-terminating proxy (e.g. Tailscale Funnel).",
+				"additionalProperties": false,
+				"properties": {
+					"internal_port": {
+						"type": "integer",
+						"description": "The port LiveKit TURN listens on internally."
+					},
+					"external_port": {
+						"type": "integer",
+						"description": "The port clients connect to externally."
+					}
+				},
+				"required": ["internal_port", "external_port"]
 			}
 		},
 		"if": {

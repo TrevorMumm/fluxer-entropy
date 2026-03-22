@@ -431,6 +431,7 @@ handle_client_channel_move(
                     State4 = maps:put(
                         pending_voice_connections, NewPendingConnections, State3
                     ),
+                    IceServers = maps:get(ice_servers, TokenData, null),
                     {reply,
                         #{
                             success => true,
@@ -438,7 +439,8 @@ handle_client_channel_move(
                             token => Token,
                             endpoint => Endpoint,
                             connection_id => NewConnectionId,
-                            voice_state => VoiceState
+                            voice_state => VoiceState,
+                            ice_servers => IceServers
                         },
                         State4};
                 {error, _Reason} ->
@@ -556,13 +558,15 @@ get_voice_token_and_create_state(Context, Member, ParsedViewerStreamKey, State) 
                     NewState = maps:put(
                         pending_voice_connections, NewPendingConnections, State2
                     ),
+                    IceServers = maps:get(ice_servers, TokenData, null),
                     {reply,
                         #{
                             success => true,
                             token => Token,
                             endpoint => Endpoint,
                             connection_id => ConnectionId,
-                            voice_state => VoiceState
+                            voice_state => VoiceState,
+                            ice_servers => IceServers
                         },
                         NewState};
                 {error, _Reason} ->
@@ -1051,7 +1055,8 @@ request_voice_token(GuildId, ChannelId, UserId, ConnectionId, VoicePermissions, 
             {ok, #{
                 token => maps:get(<<"token">>, Data),
                 endpoint => maps:get(<<"endpoint">>, Data),
-                connection_id => maps:get(<<"connectionId">>, Data)
+                connection_id => maps:get(<<"connectionId">>, Data),
+                ice_servers => maps:get(<<"iceServers">>, Data, null)
             }};
         {error, {rpc_error, _Status, Body}} ->
             case parse_unclaimed_error(Body) of

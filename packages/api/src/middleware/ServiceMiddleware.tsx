@@ -152,6 +152,7 @@ import {UserRelationshipRequestService} from '@fluxer/api/src/user/services/User
 import {UserService} from '@fluxer/api/src/user/services/UserService';
 import {UserPermissionUtils} from '@fluxer/api/src/utils/UserPermissionUtils';
 import {VoiceRepository} from '@fluxer/api/src/voice/VoiceRepository';
+import {CloudflareTurnService} from '@fluxer/api/src/infrastructure/CloudflareTurnService';
 import {VoiceService} from '@fluxer/api/src/voice/VoiceService';
 import {SweegoWebhookService} from '@fluxer/api/src/webhook/SweegoWebhookService';
 import {WebhookRepository} from '@fluxer/api/src/webhook/WebhookRepository';
@@ -574,6 +575,14 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 
 	const liveKitWebhookService = hasVoiceInfrastructure ? getLiveKitWebhookService() : undefined;
 
+	const cloudflareTurnService = Config.voice.turn
+		? new CloudflareTurnService({
+				keyId: Config.voice.turn.keyId,
+				apiToken: Config.voice.turn.apiToken,
+				ttl: Config.voice.turn.ttl,
+			})
+		: undefined;
+
 	const voiceService =
 		hasVoiceInfrastructure && voiceAvailabilityService
 			? new VoiceService(
@@ -583,6 +592,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 					channelRepository,
 					voiceRoomStore,
 					voiceAvailabilityService,
+					cloudflareTurnService,
 				)
 			: undefined;
 

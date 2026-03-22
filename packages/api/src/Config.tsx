@@ -244,6 +244,20 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 			webhookUrl: master.integrations.voice.webhook_url,
 			url: master.integrations.voice.url,
 			defaultRegion: master.integrations.voice.default_region,
+			turn: master.integrations.voice.turn
+				? {
+						provider: (master.integrations.voice.turn as {provider?: string}).provider ?? 'cloudflare',
+						keyId: (master.integrations.voice.turn as {key_id: string}).key_id,
+						apiToken: (master.integrations.voice.turn as {api_token: string}).api_token,
+						ttl: (master.integrations.voice.turn as {ttl?: number}).ttl ?? 86400,
+					}
+				: undefined,
+			turnPortRewrite: master.integrations.voice.turn_port_rewrite
+				? {
+						internalPort: (master.integrations.voice.turn_port_rewrite as {internal_port: number}).internal_port,
+						externalPort: (master.integrations.voice.turn_port_rewrite as {external_port: number}).external_port,
+					}
+				: undefined,
 		},
 		search: {
 			engine: ((master.integrations.search as {engine?: string}).engine ?? 'meilisearch') as

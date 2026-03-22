@@ -110,6 +110,7 @@ send_voice_server_update_for_region_switch(
                     Token = maps:get(token, TokenData),
                     Endpoint = maps:get(endpoint, TokenData),
                     ConnectionId = maps:get(connection_id, TokenData),
+                    IceServers = maps:get(ice_servers, TokenData, null),
                     PendingMetadata = build_pending_metadata(
                         UserId, GuildId, ChannelId, SessionId, ExistingVoiceState, TokenNonce
                     ),
@@ -123,6 +124,7 @@ send_voice_server_update_for_region_switch(
                         Token,
                         Endpoint,
                         ConnectionId,
+                        IceServers,
                         State
                     );
                 {error, _Reason} ->

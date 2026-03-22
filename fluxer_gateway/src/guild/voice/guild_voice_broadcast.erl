@@ -19,6 +19,7 @@
 
 -export([broadcast_voice_state_update/3]).
 -export([broadcast_voice_server_update_to_session/7]).
+-export([broadcast_voice_server_update_to_session/8]).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
@@ -61,21 +62,36 @@ broadcast_voice_state_update(VoiceState, State, OldChannelIdBin) ->
     integer(), integer(), binary(), binary(), binary(), binary(), guild_state()
 ) -> ok.
 broadcast_voice_server_update_to_session(
+    GuildId, ChannelId, SessionId, Token, Endpoint, ConnectionId, State
+) ->
+    broadcast_voice_server_update_to_session(
+        GuildId, ChannelId, SessionId, Token, Endpoint, ConnectionId, null, State
+    ).
+
+-spec broadcast_voice_server_update_to_session(
+    integer(), integer(), binary(), binary(), binary(), binary(), list() | null, guild_state()
+) -> ok.
+broadcast_voice_server_update_to_session(
     GuildId,
     ChannelId,
     SessionId,
     Token,
     Endpoint,
     ConnectionId,
+    IceServers,
     State
 ) ->
-    VoiceServerUpdate = #{
+    VoiceServerUpdate0 = #{
         <<"token">> => Token,
         <<"endpoint">> => Endpoint,
         <<"guild_id">> => integer_to_binary(GuildId),
         <<"channel_id">> => integer_to_binary(ChannelId),
         <<"connection_id">> => ConnectionId
     },
+    VoiceServerUpdate = case IceServers of
+        null -> VoiceServerUpdate0;
+        _ -> maps:put(<<"ice_servers">>, IceServers, VoiceServerUpdate0)
+    end,
     Sessions = maps:get(sessions, State, #{}),
     case maps:get(SessionId, Sessions, undefined) of
         undefined ->

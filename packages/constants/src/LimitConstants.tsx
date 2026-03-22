@@ -34,10 +34,10 @@ export const RTC_REGION_ID_MIN_LENGTH = 1;
 export const RTC_REGION_ID_MAX_LENGTH = 64;
 export const MAX_CHANNEL_PERMISSION_OVERWRITES = 500;
 export const MAX_DM_RECIPIENTS = 10;
-export const MAX_GUILD_EMOJIS_ANIMATED = 50;
-export const MAX_GUILD_EMOJIS_STATIC = 50;
-export const MAX_GUILD_EMOJIS_ANIMATED_MORE_EMOJI = 250;
-export const MAX_GUILD_EMOJIS_STATIC_MORE_EMOJI = 250;
+export const MAX_GUILD_EMOJIS_ANIMATED = 1000;
+export const MAX_GUILD_EMOJIS_STATIC = 1000;
+export const MAX_GUILD_EMOJIS_ANIMATED_MORE_EMOJI = 1000;
+export const MAX_GUILD_EMOJIS_STATIC_MORE_EMOJI = 1000;
 export const MAX_GUILD_STICKERS = 50;
 export const MAX_GUILD_STICKERS_MORE_STICKERS = 250;
 export const MAX_GUILD_EXPRESSION_SLOTS_UNLIMITED = 999_999;
@@ -50,8 +50,8 @@ export const MAX_GUILD_ROLES = 250;
 export const MAX_WEBHOOKS_PER_CHANNEL = 15;
 export const MAX_WEBHOOKS_PER_GUILD = 1000;
 
-export const MAX_MESSAGE_LENGTH_PREMIUM = 4000;
-export const MAX_MESSAGE_LENGTH_NON_PREMIUM = 2000;
+export const MAX_MESSAGE_LENGTH_PREMIUM = 10000;
+export const MAX_MESSAGE_LENGTH_NON_PREMIUM = 10000;
 export const MAX_ATTACHMENTS_PER_MESSAGE = 10;
 export const MAX_EMBEDS_PER_MESSAGE = 10;
 export const MAX_REACTIONS_PER_MESSAGE = 30;
@@ -61,7 +61,7 @@ export const MIN_READ_STATES_BULK_ACK = 1;
 export const MAX_ATTACHMENT_ALT_TEXT_LENGTH = 4096;
 
 export const MAX_BIO_LENGTH = 320;
-export const AVATAR_MAX_SIZE = 10 * 1024 * 1024;
+export const AVATAR_MAX_SIZE = 50 * 1024 * 1024;
 export const AVATAR_EXTENSIONS = new Set(['jpeg', 'png', 'apng', 'webp', 'gif', 'avif']);
 
 export const MAX_RELATIONSHIPS = 1000;
@@ -83,12 +83,12 @@ export const MAX_INSTALLED_PACKS_NON_PREMIUM = 0;
 export const MAX_INSTALLED_PACKS_PREMIUM = 50;
 export const MAX_VOICE_MESSAGE_DURATION = 1200;
 
-export const EMOJI_MAX_SIZE = 384 * 1024;
+export const EMOJI_MAX_SIZE = 10 * 1024 * 1024;
 export const EMOJI_EXTENSIONS = new Set(['jpeg', 'png', 'apng', 'webp', 'gif', 'avif']);
-export const STICKER_MAX_SIZE = 512 * 1024;
+export const STICKER_MAX_SIZE = 10 * 1024 * 1024;
 export const STICKER_EXTENSIONS = new Set(['png', 'gif', 'apng', 'webp', 'avif']);
-export const ATTACHMENT_MAX_SIZE_PREMIUM = 500 * 1024 * 1024;
-export const ATTACHMENT_MAX_SIZE_NON_PREMIUM = 25 * 1024 * 1024;
+export const ATTACHMENT_MAX_SIZE_PREMIUM = 1024 * 1024 * 1024;
+export const ATTACHMENT_MAX_SIZE_NON_PREMIUM = 1024 * 1024 * 1024;
 
 export const MAX_MESSAGES_PER_CHANNEL = 30;
 export const MAX_LOADED_MESSAGES = MAX_MESSAGES_PER_CHANNEL * 4;

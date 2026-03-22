@@ -197,7 +197,7 @@ const ChannelOverviewTab: React.FC<{channelId: string}> = observer(({channelId})
 			url: '',
 			slowmode: 0,
 			nsfw: false,
-			bitrate: 64,
+			bitrate: 128,
 			user_limit: 0,
 			rtc_region: null,
 		},

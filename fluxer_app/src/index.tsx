@@ -49,6 +49,7 @@ import NotificationStore from '@app/stores/NotificationStore';
 import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
 import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
 import MediaEngineFacade from '@app/stores/voice/MediaEngineFacade';
+import {installTurnPortRewriter} from '@app/stores/voice/TurnPortRewriter';
 import {preloadClientInfo} from '@app/utils/ClientInfoUtils';
 import {getElectronAPI} from '@app/utils/NativeUtils';
 import TtsUtils from '@app/utils/TtsUtils';
@@ -189,6 +190,13 @@ async function bootstrap(): Promise<void> {
 	try {
 		await RuntimeConfigStore.waitForInit();
 		initSentry();
+
+		if (RuntimeConfigStore.turnPortRewrite) {
+			installTurnPortRewriter(
+				RuntimeConfigStore.turnPortRewrite.internalPort,
+				RuntimeConfigStore.turnPortRewrite.externalPort,
+			);
+		}
 	} catch (error) {
 		logger.error('Failed to initialize runtime config:', error);
 		const root = ReactDOM.createRoot(document.getElementById('root')!);

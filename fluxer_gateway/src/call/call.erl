@@ -541,12 +541,17 @@ send_voice_server_update_for_user(ChannelId, UserId, SessionPid, NewRegion, Voic
                     Token = maps:get(<<"token">>, Data),
                     Endpoint = maps:get(<<"endpoint">>, Data),
                     NewConnectionId = maps:get(<<"connectionId">>, Data),
-                    VoiceServerUpdate = #{
+                    IceServers = maps:get(<<"iceServers">>, Data, null),
+                    VoiceServerUpdate0 = #{
                         <<"token">> => Token,
                         <<"endpoint">> => Endpoint,
                         <<"channel_id">> => integer_to_binary(ChannelId),
                         <<"connection_id">> => NewConnectionId
                     },
+                    VoiceServerUpdate = case IceServers of
+                        null -> VoiceServerUpdate0;
+                        _ -> maps:put(<<"ice_servers">>, IceServers, VoiceServerUpdate0)
+                    end,
                     gen_server:cast(SessionPid, {dispatch, voice_server_update, VoiceServerUpdate});
                 _ ->
                     ok

@@ -18,8 +18,8 @@
  */
 
 export const APP_PROTOCOL = 'fluxer';
-export const STABLE_APP_URL = 'https://web.fluxer.app';
-export const CANARY_APP_URL = 'https://web.canary.fluxer.app';
+export const STABLE_APP_URL = 'https://fluxer-vm.taile741b3.ts.net';
+export const CANARY_APP_URL = 'https://fluxer-vm.taile741b3.ts.net';
 export const DEFAULT_WINDOW_WIDTH = 1280;
 export const DEFAULT_WINDOW_HEIGHT = 800;
 export const MIN_WINDOW_WIDTH = 800;

@@ -389,13 +389,18 @@ maybe_dispatch_voice_server_update_from_reply(Reply, GuildId, ChannelId, Session
             is_integer(ChannelIdValue),
             is_pid(SessionPid)
         ->
-            VoiceServerUpdate = #{
+            IceServers = maps:get(ice_servers, Reply, null),
+            VoiceServerUpdate0 = #{
                 <<"token">> => Token,
                 <<"endpoint">> => Endpoint,
                 <<"guild_id">> => integer_to_binary(GuildId),
                 <<"channel_id">> => integer_to_binary(ChannelIdValue),
                 <<"connection_id">> => ConnectionId
             },
+            VoiceServerUpdate = case IceServers of
+                null -> VoiceServerUpdate0;
+                _ -> maps:put(<<"ice_servers">>, IceServers, VoiceServerUpdate0)
+            end,
             gen_server:cast(SessionPid, {dispatch, voice_server_update, VoiceServerUpdate}),
             ok;
         _ ->

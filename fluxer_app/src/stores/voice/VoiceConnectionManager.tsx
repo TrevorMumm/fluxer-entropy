@@ -36,6 +36,7 @@ export interface VoiceServerUpdateData {
 	connection_id: string;
 	guild_id?: string;
 	channel_id?: string;
+	ice_servers?: Array<{urls: string | Array<string>; username?: string; credential?: string}>;
 }
 
 export interface VoiceConnectionState {
@@ -180,6 +181,7 @@ class VoiceConnectionManager {
 		const token = raw.token ?? null;
 		const connectionId = raw.connection_id ?? null;
 		const incomingChannelId = raw.channel_id ?? null;
+		const iceServers = raw.ice_servers;
 
 		const {
 			guildId: expectedGuildId,
@@ -286,7 +288,10 @@ class VoiceConnectionManager {
 		logger.info('Attempting to connect to LiveKit', {endpoint, guildId, channelId: resolvedChannelId});
 
 		room
-			.connect(endpoint, token, {autoSubscribe: false})
+			.connect(endpoint, token, {
+				autoSubscribe: false,
+				rtcConfig: iceServers?.length ? {iceServers} : undefined,
+			})
 			.then(() => {
 				this.disconnectPreviousRoom(previousRoom);
 				logger.info('LiveKit connection succeeded');

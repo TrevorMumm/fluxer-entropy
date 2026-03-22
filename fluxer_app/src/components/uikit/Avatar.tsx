@@ -19,8 +19,7 @@
 
 import {getStatusTypeLabel} from '@app/AppConstants';
 import {BaseAvatar} from '@app/components/uikit/BaseAvatar';
-import {useHover} from '@app/hooks/useHover';
-import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
 import type {UserRecord} from '@app/records/UserRecord';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import * as AvatarUtils from '@app/utils/AvatarUtils';
@@ -103,28 +102,28 @@ const AvatarComponent = React.forwardRef<HTMLDivElement, AvatarProps>(
 
 		const statusLabel = status != null ? getStatusTypeLabel(i18n, status) : null;
 
-		const [hoverRef, isHovering] = useHover();
+		const shouldAutoplay = useAutoplayExpandedProfileAnimations();
 		const [isStaticLoaded, setIsStaticLoaded] = useState(ImageCacheUtils.hasImage(avatarUrl));
 		const [isAnimatedLoaded, setIsAnimatedLoaded] = useState(ImageCacheUtils.hasImage(hoverAvatarUrl));
 		const [shouldPlayAnimated, setShouldPlayAnimated] = useState(false);
 
 		useEffect(() => {
 			ImageCacheUtils.loadImage(avatarUrl, () => setIsStaticLoaded(true));
-			if (isHovering || forceAnimate) {
+			if (shouldAutoplay || forceAnimate) {
 				ImageCacheUtils.loadImage(hoverAvatarUrl, () => setIsAnimatedLoaded(true));
 			}
-		}, [avatarUrl, hoverAvatarUrl, isHovering, forceAnimate]);
+		}, [avatarUrl, hoverAvatarUrl, shouldAutoplay, forceAnimate]);
 
 		useEffect(() => {
-			setShouldPlayAnimated((isHovering || forceAnimate) && isAnimatedLoaded);
-		}, [isHovering, forceAnimate, isAnimatedLoaded]);
+			setShouldPlayAnimated((shouldAutoplay || forceAnimate) && isAnimatedLoaded);
+		}, [shouldAutoplay, forceAnimate, isAnimatedLoaded]);
 
 		const safeAvatarUrl = avatarUrl || AvatarUtils.getUserAvatarURL({id: user.id, avatar: null}, false);
 		const safeHoverAvatarUrl = hoverAvatarUrl || undefined;
 
 		return (
 			<BaseAvatar
-				ref={useMergeRefs([ref, hoverRef])}
+				ref={ref}
 				size={size}
 				avatarUrl={safeAvatarUrl}
 				hoverAvatarUrl={safeHoverAvatarUrl}

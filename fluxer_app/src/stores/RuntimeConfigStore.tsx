@@ -153,6 +153,8 @@ class RuntimeConfigStore {
 
 	sentryDsn: string = '';
 
+	turnPortRewrite: {internalPort: number; externalPort: number} | null = null;
+
 	relayDirectoryUrl: string | null = Config.PUBLIC_RELAY_DIRECTORY_URL;
 
 	get relayModeEnabled(): boolean {
@@ -449,6 +451,9 @@ class RuntimeConfigStore {
 			if (instance.app_public) {
 				this.sentryDsn = instance.app_public.sentry_dsn;
 			}
+
+			const voice = instance as {voice?: {turn_port_rewrite?: {internalPort: number; externalPort: number}}};
+			this.turnPortRewrite = voice.voice?.turn_port_rewrite ?? null;
 		});
 	}
 	private assertCodeVersion(instanceVersion: number): void {

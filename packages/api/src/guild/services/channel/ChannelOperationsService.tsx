@@ -156,7 +156,7 @@ export class ChannelOperationsService {
 			recipient_ids: null,
 			nsfw: false,
 			rate_limit_per_user: 0,
-			bitrate: params.data.type === ChannelTypes.GUILD_VOICE ? (params.data.bitrate ?? 64000) : null,
+			bitrate: params.data.type === ChannelTypes.GUILD_VOICE ? (params.data.bitrate ?? 128000) : null,
 			user_limit: params.data.type === ChannelTypes.GUILD_VOICE ? (params.data.user_limit ?? 0) : null,
 			rtc_region: null,
 			last_message_id: null,

@@ -18,7 +18,7 @@
  */
 
 import styles from '@app/components/popouts/GuildIcon.module.css';
-import {useHover} from '@app/hooks/useHover';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
 import AccessibilityStore from '@app/stores/AccessibilityStore';
 import * as AvatarUtils from '@app/utils/AvatarUtils';
 import {getInitialsLength} from '@app/utils/GuildInitialsUtils';
@@ -53,22 +53,22 @@ export const GuildIcon = observer(function GuildIcon({
 }: GuildIconProps) {
 	const initials = useMemo(() => StringUtils.getInitialsFromName(name), [name]);
 	const initialsLength = useMemo(() => getInitialsLength(initials), [initials]);
-	const [hoverRef, isHovering] = useHover();
+	const shouldAutoplay = useAutoplayExpandedProfileAnimations();
 
 	const iconUrl = useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}) : null), [id, icon]);
-	const hoverIconUrl = useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}, true) : null), [id, icon]);
+	const animatedIconUrl = useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}, true) : null), [id, icon]);
 
 	const [isStaticLoaded, setIsStaticLoaded] = useState(() => (iconUrl ? ImageCacheUtils.hasImage(iconUrl) : false));
 	const [isAnimatedLoaded, setIsAnimatedLoaded] = useState(() =>
-		hoverIconUrl ? ImageCacheUtils.hasImage(hoverIconUrl) : false,
+		animatedIconUrl ? ImageCacheUtils.hasImage(animatedIconUrl) : false,
 	);
 	const [shouldPlayAnimated, setShouldPlayAnimated] = useState(false);
 
 	useEffect(() => {
 		setIsStaticLoaded(iconUrl ? ImageCacheUtils.hasImage(iconUrl) : false);
-		setIsAnimatedLoaded(hoverIconUrl ? ImageCacheUtils.hasImage(hoverIconUrl) : false);
+		setIsAnimatedLoaded(animatedIconUrl ? ImageCacheUtils.hasImage(animatedIconUrl) : false);
 		setShouldPlayAnimated(false);
-	}, [iconUrl, hoverIconUrl]);
+	}, [iconUrl, animatedIconUrl]);
 
 	useEffect(() => {
 		if (!iconUrl || isStaticLoaded) return;
@@ -83,22 +83,22 @@ export const GuildIcon = observer(function GuildIcon({
 	}, [iconUrl, isStaticLoaded]);
 
 	useEffect(() => {
-		if (!isHovering || !hoverIconUrl || isAnimatedLoaded) return;
+		if (!shouldAutoplay || !animatedIconUrl || isAnimatedLoaded) return;
 
 		let cancelled = false;
-		ImageCacheUtils.loadImage(hoverIconUrl, () => {
+		ImageCacheUtils.loadImage(animatedIconUrl, () => {
 			if (!cancelled) setIsAnimatedLoaded(true);
 		});
 		return () => {
 			cancelled = true;
 		};
-	}, [isHovering, hoverIconUrl, isAnimatedLoaded]);
+	}, [shouldAutoplay, animatedIconUrl, isAnimatedLoaded]);
 
 	useEffect(() => {
-		setShouldPlayAnimated(Boolean(isHovering && isAnimatedLoaded));
-	}, [isHovering, isAnimatedLoaded]);
+		setShouldPlayAnimated(Boolean(shouldAutoplay && isAnimatedLoaded));
+	}, [shouldAutoplay, isAnimatedLoaded]);
 
-	const activeUrl = shouldPlayAnimated && hoverIconUrl ? hoverIconUrl : iconUrl;
+	const activeUrl = shouldPlayAnimated && animatedIconUrl ? animatedIconUrl : iconUrl;
 
 	const styleVars: GuildIconStyleVars = {};
 	if (sizePx != null) {
@@ -112,7 +112,6 @@ export const GuildIcon = observer(function GuildIcon({
 
 	return (
 		<div
-			ref={hoverRef}
 			className={clsx(styles.container, className, !icon && styles.containerNoIcon)}
 			{...containerProps}
 			data-initials-length={initialsLength}

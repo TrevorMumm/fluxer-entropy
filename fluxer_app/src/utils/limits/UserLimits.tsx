@@ -24,8 +24,8 @@ import type {LimitKey} from '@fluxer/constants/src/LimitConfigMetadata';
 import {MAX_BIO_LENGTH} from '@fluxer/constants/src/LimitConstants';
 
 const FALLBACKS = {
-	max_guilds_free: 100,
-	max_message_length_free: 2000,
+	max_guilds_free: 200,
+	max_message_length_free: 10000,
 	max_attachments_per_message: 10,
 
 	max_bio_length: MAX_BIO_LENGTH,
@@ -38,7 +38,7 @@ const FALLBACKS = {
 	max_group_dm_recipients: 25,
 	max_private_channels_per_user: 250,
 
-	max_attachment_file_size_free: 25 * 1024 * 1024,
+	max_attachment_file_size_free: 1024 * 1024 * 1024,
 } as const;
 
 class LimitsClass {

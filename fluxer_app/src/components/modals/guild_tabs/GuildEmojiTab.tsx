@@ -128,15 +128,15 @@ const GuildEmojiTab: React.FC<{guildId: string}> = observer(function GuildEmojiT
 	}, [filteredEmojis]);
 
 	const maxStaticEmojis = useMemo(() => {
-		if (!guild) return 50;
-		if (guild.features.has('MORE_EMOJI')) return 250;
-		return 50;
+		if (!guild) return 1000;
+		if (guild.features.has('MORE_EMOJI')) return 1000;
+		return 1000;
 	}, [guild]);
 
 	const maxAnimatedEmojis = useMemo(() => {
-		if (!guild) return 50;
-		if (guild.features.has('MORE_EMOJI')) return 250;
-		return 50;
+		if (!guild) return 1000;
+		if (guild.features.has('MORE_EMOJI')) return 1000;
+		return 1000;
 	}, [guild]);
 
 	const canModifyEmoji = useCallback(
