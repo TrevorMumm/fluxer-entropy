@@ -3,6 +3,7 @@
 **/*.css.d.ts
 **/*.dump
 **/dump.rdb
+/dumps/
 **/*.iml
 **/*.log
 **/*.o
@@ -70,6 +71,7 @@ devenv.local.nix
 **/.devserver-cache.json
 /.fluxer/
 /config/config.json
+/config/config.backup.json
 /fluxer_app/src/assets/emoji-sprites/
 /fluxer_app/src/components/uikit/AvatarStatusGeometry.ts
 /fluxer_app/src/components/uikit/SVGMasks.tsx
@@ -93,14 +95,3 @@ geoip_data
 next-env.d.ts
 .github/agents
 .github/prompts
-
-# Devenv
-.devenv*
-devenv.local.nix
-devenv.local.yaml
-
-# direnv
-.direnv
-
-# pre-commit
-.pre-commit-config.yaml
