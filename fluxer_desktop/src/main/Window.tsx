@@ -467,7 +467,7 @@ export function createWindow(): BrowserWindow {
 		resizable: true,
 
 		webPreferences: {
-			preload: path.join(__dirname, '../preload/index.cjs'),
+			preload: path.join(__dirname, '../preload/index.js'),
 			contextIsolation: true,
 			nodeIntegration: false,
 			sandbox: true,

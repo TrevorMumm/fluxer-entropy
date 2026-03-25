@@ -59,7 +59,7 @@ export async function createChannel(guildId: string, data: FormInputs, parentId?
 		url: data.url,
 		type: channelType,
 		parent_id: parentId || null,
-		bitrate: channelType === ChannelTypes.GUILD_VOICE ? 128000 : null,
+		bitrate: channelType === ChannelTypes.GUILD_VOICE ? 64000 : null,
 		user_limit: channelType === ChannelTypes.GUILD_VOICE ? 0 : null,
 	});
 

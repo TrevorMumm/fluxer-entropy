@@ -252,12 +252,6 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 						ttl: (master.integrations.voice.turn as {ttl?: number}).ttl ?? 86400,
 					}
 				: undefined,
-			turnPortRewrite: master.integrations.voice.turn_port_rewrite
-				? {
-						internalPort: (master.integrations.voice.turn_port_rewrite as {internal_port: number}).internal_port,
-						externalPort: (master.integrations.voice.turn_port_rewrite as {external_port: number}).external_port,
-					}
-				: undefined,
 		},
 		search: {
 			engine: ((master.integrations.search as {engine?: string}).engine ?? 'meilisearch') as

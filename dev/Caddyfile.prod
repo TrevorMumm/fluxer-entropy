@@ -1,26 +1,8 @@
-{
-	admin off
-	http_port 48763
-	https_port 48764
-}
-
 throat.chat {
-	encode zstd gzip
-
-	handle /_caddy_health {
-		respond "OK" 200
-	}
-
 	@gateway path /gateway /gateway/*
 	handle @gateway {
 		uri strip_prefix /gateway
 		reverse_proxy 127.0.0.1:49107
-	}
-
-	@marketing path /marketing /marketing/*
-	handle @marketing {
-		uri strip_prefix /marketing
-		reverse_proxy 127.0.0.1:49531
 	}
 
 	@server path /admin /admin/* /api /api/* /s3 /s3/* /queue /queue/* /media /media/* /_health /_ready /_live /.well-known/fluxer
@@ -34,10 +16,16 @@ throat.chat {
 		reverse_proxy 127.0.0.1:7880
 	}
 
-	@static path /assets/*
-	handle @static {
-		header Cache-Control "public, max-age=31536000, immutable"
-		reverse_proxy 127.0.0.1:49427
+	@marketing path /marketing /marketing/*
+	handle @marketing {
+		uri strip_prefix /marketing
+		reverse_proxy 127.0.0.1:49531
+	}
+
+	redir /mailpit /mailpit/
+	handle_path /mailpit/* {
+		rewrite * /mailpit{path}
+		reverse_proxy 127.0.0.1:49667
 	}
 
 	handle {

@@ -85,9 +85,6 @@ export function InstanceController(app: Hono<HonoEnv>) {
 					self_hosted: Config.instance.selfHosted,
 					manual_review_enabled: instanceConfig?.manualReviewEnabled ?? false,
 				},
-				voice: Config.voice.turnPortRewrite
-					? {turn_port_rewrite: Config.voice.turnPortRewrite}
-					: undefined,
 				gif: {
 					provider: Config.gif.provider,
 				},

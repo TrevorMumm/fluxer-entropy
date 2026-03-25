@@ -3,7 +3,6 @@
 **/*.css.d.ts
 **/*.dump
 **/dump.rdb
-/dumps/
 **/*.iml
 **/*.log
 **/*.o
@@ -94,5 +93,14 @@ geoip_data
 next-env.d.ts
 .github/agents
 .github/prompts
-/fluxer_desktop/release/
-fluxer_desktop/release/
+
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

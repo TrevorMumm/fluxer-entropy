@@ -33,9 +33,9 @@ export interface PageMeta {
 
 export function defaultPageMeta(): PageMeta {
 	return {
-		title: 'Fluxer: A chat app that puts you first',
+		title: 'Throat: A chat app that puts you first',
 		description:
-			'Fluxer is a free and open source instant messaging and VoIP platform built for friends, groups, and communities.',
+			'Throat is a free and open source instant messaging and VoIP platform built for friends, groups, and communities.',
 		ogType: 'website',
 		ogImageUrl: null,
 		publishedTime: null,

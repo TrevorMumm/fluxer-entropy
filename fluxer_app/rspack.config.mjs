@@ -266,7 +266,7 @@ export default () => {
 			clean: true,
 		},
 
-		devtool: 'source-map',
+		devtool: process.env.DISABLE_SOURCE_MAPS ? false : 'source-map',
 
 		target: ['web', 'browserslist'],
 

@@ -33,7 +33,7 @@ module.exports = {
 
 	directories: {
 		buildResources: 'build_resources',
-		output: 'release',
+		output: 'dist-electron',
 	},
 
 	files: ['dist/**/*', 'package.json'],
@@ -146,12 +146,10 @@ module.exports = {
 			},
 		],
 		desktop: {
-			entry: {
-				Name: productName,
-				Comment: 'Instant messaging and VoIP application',
-				Categories: 'Network;InstantMessaging;',
-				StartupWMClass: isCanary ? 'fluxer-canary' : 'fluxer',
-			},
+			Name: productName,
+			Comment: 'Instant messaging and VoIP application',
+			Categories: 'Network;InstantMessaging;',
+			StartupWMClass: isCanary ? 'fluxer-canary' : 'fluxer',
 		},
 	},
 

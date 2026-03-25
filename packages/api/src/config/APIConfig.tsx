@@ -155,10 +155,6 @@ export interface APIConfig {
 			apiToken: string;
 			ttl: number;
 		};
-		turnPortRewrite?: {
-			internalPort: number;
-			externalPort: number;
-		};
 	};
 
 	search: {

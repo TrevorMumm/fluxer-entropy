@@ -1597,24 +1597,6 @@
 						"key_id",
 						"api_token"
 					]
-				},
-				"turn_port_rewrite": {
-					"type": "object",
-					"description": "Rewrites LiveKit built-in TURN server ports for clients when behind a TLS-terminating proxy (e.g. Tailscale Funnel).",
-					"properties": {
-						"internal_port": {
-							"type": "integer",
-							"description": "The port LiveKit TURN listens on internally."
-						},
-						"external_port": {
-							"type": "integer",
-							"description": "The port clients connect to externally."
-						}
-					},
-					"required": [
-						"internal_port",
-						"external_port"
-					]
 				}
 			},
 			"if": {

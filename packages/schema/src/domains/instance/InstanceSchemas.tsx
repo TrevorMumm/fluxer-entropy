@@ -94,17 +94,6 @@ export const InstanceInfoResponse = z.object({
 		})
 		.describe('Push notification configuration'),
 	app_public: AppPublicConfigResponse.describe('Public application configuration for client-side features'),
-	voice: z
-		.object({
-			turn_port_rewrite: z
-				.object({
-					internalPort: z.number().describe('The port LiveKit TURN listens on internally'),
-					externalPort: z.number().describe('The port clients connect to externally'),
-				})
-				.describe('TURN port rewrite configuration for TLS-terminating proxies'),
-		})
-		.optional()
-		.describe('Voice configuration for clients'),
 	federation: z
 		.object({
 			enabled: z.boolean().describe('Whether federation is enabled on this instance'),
@@ -178,17 +167,6 @@ export const WellKnownFluxerResponse = z.object({
 		})
 		.describe('Push notification configuration'),
 	app_public: AppPublicConfigResponse.describe('Public application configuration for client-side features'),
-	voice: z
-		.object({
-			turn_port_rewrite: z
-				.object({
-					internalPort: z.number().describe('The port LiveKit TURN listens on internally'),
-					externalPort: z.number().describe('The port clients connect to externally'),
-				})
-				.describe('TURN port rewrite configuration for TLS-terminating proxies'),
-		})
-		.optional()
-		.describe('Voice configuration for clients'),
 	federation: z
 		.object({
 			enabled: z.boolean().describe('Whether federation is enabled on this instance'),
